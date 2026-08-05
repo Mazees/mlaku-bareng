@@ -1,0 +1,72 @@
+@import "tailwindcss";
+@custom-variant hover (&:hover);
+@custom-variant focus (&:focus);
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "excel";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Background */
+  --color-base-100: oklch(99% 0.002 95);
+  --color-base-200: oklch(97% 0.003 95);
+  --color-base-300: oklch(94% 0.005 95);
+  --color-base-content: oklch(24% 0.01 260);
+
+  /* Blue Style */
+  --color-primary: oklch(51% 0.13 250);
+  --color-primary-content: oklch(98% 0.01 95);
+
+  /* Soft Blue */
+  --color-secondary: oklch(73% 0.09 250);
+  --color-secondary-content: oklch(22% 0.03 250);
+
+  /* Header/Selection */
+  --color-accent: oklch(59% 0.11 250);
+  --color-accent-content: oklch(98% 0.01 95);
+
+  /* Neutral Gray */
+  --color-neutral: oklch(32% 0.01 260);
+  --color-neutral-content: oklch(95% 0.002 95);
+
+  /* States */
+  --color-info: oklch(70% 0.12 240);
+  --color-info-content: oklch(22% 0.08 240);
+
+  --color-success: oklch(71% 0.16 145);
+  --color-success-content: oklch(18% 0.04 145);
+
+  --color-warning: oklch(84% 0.15 86);
+  --color-warning-content: oklch(28% 0.07 86);
+
+  --color-error: oklch(67% 0.2 25);
+  --color-error-content: oklch(98% 0.01 95);
+
+  /* Excel Style */
+  --radius-selector: 0.375rem;
+  --radius-field: 0.375rem;
+  --radius-box: 0.5rem;
+
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Aturan global: Semua isi tabel wajib text-nowrap tanpa terkecuali */
+table,
+table th,
+table td,
+.table th,
+.table td {
+  white-space: nowrap !important;
+}
