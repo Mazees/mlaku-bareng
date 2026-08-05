@@ -54,7 +54,7 @@ export default function Home() {
             </h2>
             <p className="text-sm text-base-content/70 mt-2">
               Mengapa kita menggunakan aplikasi ini untuk persiapan jalan-jalan
-              di 2027?
+              bersama?
             </p>
           </div>
 
@@ -86,7 +86,7 @@ export default function Home() {
                 </h3>
                 <p className="text-sm text-base-content/75 leading-relaxed mt-1">
                   Pencatatan iuran yang rapi membantu kita disiplin menabung,
-                  memastikan rencana jalan-jalan di 2027 benar-benar terwujud!
+                  memastikan rencana liburan bersama benar-benar terwujud!
                 </p>
               </div>
             </div>
