@@ -45,7 +45,7 @@ export default function Home() {
         </div>
       </main>
 
-      {/* 2. Section: Tujuan & Alokasi Dana Kas Keluarga */}
+      {/* 2. Section: Tujuan & Alokasi Dana Kas Anggota */}
       <section className="bg-base-200/60 border-t border-base-300 py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto mb-14">

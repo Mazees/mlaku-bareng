@@ -40,7 +40,7 @@ export interface LaporanPDFData {
 /**
  * PDF Exporter Utility
  * -------------------
- * Membuat file PDF Laporan Kas Keluarga MLAKUBARENG dengan
+ * Membuat file PDF Laporan Kas Anggota MLAKUBARENG dengan
  * SELURUH TABEL RATA KIRI (LEFT-ALIGNED) RAPI & SERAGAM.
  */
 export function generateLaporanPDF(data: LaporanPDFData) {
@@ -145,7 +145,7 @@ export function generateLaporanPDF(data: LaporanPDFData) {
 
   currentY = (doc as any).lastAutoTable.finalY + 8;
 
-  // 4. Tabel Status Setoran Iuran Keluarga (Hanya untuk Bulanan)
+  // 4. Tabel Status Setoran Iuran Anggota (Hanya untuk Bulanan)
   const isYearly = data.rekapTahunan && data.rekapTahunan.length > 0;
   if (data.statusIuran && data.statusIuran.length > 0 && !isYearly) {
     doc.setFontSize(10);
@@ -155,7 +155,7 @@ export function generateLaporanPDF(data: LaporanPDFData) {
 
     autoTable(doc, {
       startY: currentY + 3,
-      head: [["Nama Keluarga", "Nominal Setor", "Status"]],
+      head: [["Nama Anggota", "Nominal Setor", "Status"]],
       body: data.statusIuran.map((s) => [
         s.nama_keluarga,
         `Rp ${s.nominal_setor.toLocaleString("id-ID")}`,
@@ -190,7 +190,7 @@ export function generateLaporanPDF(data: LaporanPDFData) {
       startY: currentY + 3,
       head: [
         [
-          "Nama Keluarga",
+          "Nama Anggota",
           "Jan",
           "Feb",
           "Mar",

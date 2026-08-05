@@ -13,7 +13,7 @@ const KeluargaSchema = z.object({
 });
 
 /**
- * Server Action: Tambah Keluarga Baru
+ * Server Action: Tambah Anggota Baru
  */
 export async function createKeluarga(formData: FormData) {
   const supabase = await createClient();
@@ -108,7 +108,7 @@ export async function updateKeluarga(id: string, formData: FormData) {
 }
 
 /**
- * Server Action: Hapus Keluarga
+ * Server Action: Hapus Anggota
  */
 export async function deleteKeluarga(id: string) {
   const supabase = await createClient();

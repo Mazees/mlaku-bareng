@@ -70,7 +70,7 @@ export function KeluargaForm({
         showSuccessToast(
           editData
             ? "Data keluarga berhasil diperbarui!"
-            : "Keluarga baru berhasil ditambahkan!"
+            : "Anggota baru berhasil ditambahkan!"
         );
       }
     } catch {
@@ -88,7 +88,7 @@ export function KeluargaForm({
         {/* Modal Header */}
         <div className="flex items-center justify-between pb-4 border-b border-base-300">
           <h3 className="font-bold text-lg text-base-content">
-            {editData ? "Edit Data Keluarga" : "Tambah Keluarga Baru"}
+            {editData ? "Edit Data Anggota" : "Tambah Anggota Baru"}
           </h3>
           <button
             type="button"
@@ -112,13 +112,13 @@ export function KeluargaForm({
           <div className="form-control w-full">
             <label className="label">
               <span className="label-text font-semibold">
-                Nama Kepala Keluarga
+                Nama Anggota
               </span>
             </label>
             <input
               type="text"
               required
-              placeholder="Contoh: Keluarga Budi Mlaku Bareng"
+              placeholder="Contoh: Anggota Budi"
               value={namaKeluarga}
               onChange={(e) => setNamaKeluarga(e.target.value)}
               className="input input-bordered w-full font-medium"
@@ -152,7 +152,7 @@ export function KeluargaForm({
               ) : (
                 <FiCheck className="w-4 h-4 mr-1" />
               )}
-              {editData ? "Simpan Perubahan" : "Daftarkan Keluarga"}
+              {editData ? "Simpan Perubahan" : "Daftarkan Anggota"}
             </button>
           </div>
         </form>

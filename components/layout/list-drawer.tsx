@@ -15,7 +15,7 @@ import {
 
 const NAV_LINKS = [
   { href: "/dashboard", label: "Overview", icon: FiHome },
-  { href: "/dashboard/keluarga", label: "Keluarga", icon: FiUsers },
+  { href: "/dashboard/keluarga", label: "Anggota", icon: FiUsers },
   { href: "/dashboard/iuran", label: "Setoran Iuran", icon: FiDollarSign },
   { href: "/dashboard/transaksi", label: "Transaksi Kas", icon: FiCreditCard },
   { href: "/dashboard/pocket", label: "Dompet", icon: FiFolder },

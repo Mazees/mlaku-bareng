@@ -51,10 +51,10 @@ export function ConfigView({
               </div>
               <div>
                 <h2 className="card-title text-sm">
-                  Nominal Iuran Bulanan per Keluarga
+                  Nominal Iuran Bulanan per Anggota
                 </h2>
                 <p className="text-xs text-base-content/70">
-                  Nominal standar yang berlaku untuk setiap Keluarga
+                  Nominal standar yang berlaku untuk setiap Anggota
                 </p>
               </div>
             </div>

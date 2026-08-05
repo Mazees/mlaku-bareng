@@ -109,7 +109,7 @@ export function IuranTable({
             Catatan Setoran Iuran
           </h1>
           <p className="text-xs text-base-content/70">
-            Daftar pembayaran iuran bulanan per Keluarga
+            Daftar pembayaran iuran bulanan per Anggota
           </p>
         </div>
         <button
@@ -143,7 +143,7 @@ export function IuranTable({
             <label className="flex w-64 input input-bordered input-sm items-center gap-2">
               <input
                 type="text"
-                placeholder="Cari nama Keluarga..."
+                placeholder="Cari nama Anggota..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full"
@@ -175,7 +175,7 @@ export function IuranTable({
           <table className="table table-zebra w-full text-sm text-nowrap">
             <thead className="bg-base-300 text-base-content font-bold">
               <tr>
-                <th>Nama Keluarga</th>
+                <th>Nama Anggota</th>
                 <th className="text-center">Periode</th>
                 <th className="text-center">Tanggal Setor</th>
                 <th className="text-center">Pocket</th>
@@ -188,7 +188,7 @@ export function IuranTable({
                 filteredList.map((item) => (
                   <tr key={item.id}>
                     <td className="font-bold">
-                      {item.keluarga?.nama_keluarga || "Keluarga (Dihapus)"}
+                      {item.keluarga?.nama_keluarga || "Anggota (Dihapus)"}
                     </td>
                     <td className="text-center">
                       <span className="badge badge-neutral font-mono text-xs font-bold">
@@ -216,7 +216,7 @@ export function IuranTable({
                         onClick={() =>
                           handleDelete(
                             item.id,
-                            item.keluarga?.nama_keluarga || "Keluarga",
+                            item.keluarga?.nama_keluarga || "Anggota",
                             item.periode
                           )
                         }

@@ -361,7 +361,7 @@ export function LaporanView({
             </div>
             <p className="text-xs text-base-content/70 leading-relaxed">
               Format file Excel (.xlsx) dengan 3 sheet terpisah: Ringkasan Kas,
-              Status Setoran Iuran Keluarga, dan Riwayat Transaksi Kas.
+              Status Setoran Iuran Anggota, dan Riwayat Transaksi Kas.
             </p>
             <button
               onClick={handleExportExcel}

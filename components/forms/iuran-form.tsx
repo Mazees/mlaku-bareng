@@ -120,10 +120,10 @@ export function IuranForm({
             </div>
           )}
 
-          {/* Pilih Keluarga */}
+          {/* Pilih Anggota */}
           <div className="form-control w-full">
             <label className="label py-1">
-              <span className="label-text font-semibold">Pilih Keluarga</span>
+              <span className="label-text font-semibold">Pilih Anggota</span>
             </label>
             <select
               required

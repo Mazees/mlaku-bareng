@@ -436,7 +436,7 @@ export function PublicOverviewView({
                 Rekap Iuran Bulanan
               </h2>
               <p className="text-xs text-base-content/70">
-                Status pembayaran iuran bulanan per Keluarga
+                Status pembayaran iuran bulanan per Anggota
               </p>
             </div>
             <div>
@@ -453,7 +453,7 @@ export function PublicOverviewView({
             <table className="table table-zebra w-full text-xs text-nowrap">
               <thead className="bg-base-300 text-base-content font-bold">
                 <tr>
-                  <th className="text-left">Nama Keluarga</th>
+                  <th className="text-left">Nama Anggota</th>
                   <th className="text-left">Nominal Setor</th>
                   <th className="text-left">Status</th>
                 </tr>
@@ -494,7 +494,7 @@ export function PublicOverviewView({
                       colSpan={3}
                       className="text-center py-6 text-base-content/60"
                     >
-                      Belum ada data keluarga di database.
+                      Belum ada data anggota di database.
                     </td>
                   </tr>
                 )}
@@ -513,7 +513,7 @@ export function PublicOverviewView({
                 Rekap Iuran Tahunan
               </h2>
               <p className="text-xs text-base-content/70">
-                Matriks setoran 12 bulan per Keluarga tahun ini
+                Matriks setoran 12 bulan per Anggota tahun ini
               </p>
             </div>
             <div>
@@ -534,7 +534,7 @@ export function PublicOverviewView({
             <table className="table table-zebra w-full text-xs text-nowrap">
               <thead className="bg-base-300 text-base-content font-bold">
                 <tr>
-                  <th className="min-w-44">Nama Keluarga</th>
+                  <th className="min-w-44">Nama Anggota</th>
                   <th className="text-center">Jan</th>
                   <th className="text-center">Feb</th>
                   <th className="text-center">Mar</th>
@@ -575,9 +575,9 @@ export function PublicOverviewView({
                       })}
                       <td className="text-right font-extrabold text-primary">
                         Rp{" "}
-                        {Number(
-                          item.total_setor_tahun_ini || 0,
-                        ).toLocaleString("id-ID")}
+                        {Number(item.total_setor_tahun_ini || 0).toLocaleString(
+                          "id-ID",
+                        )}
                       </td>
                     </tr>
                   ))
@@ -587,7 +587,7 @@ export function PublicOverviewView({
                       colSpan={14}
                       className="text-center py-6 text-base-content/60"
                     >
-                      Belum ada data keluarga di database.
+                      Belum ada data anggota di database.
                     </td>
                   </tr>
                 )}

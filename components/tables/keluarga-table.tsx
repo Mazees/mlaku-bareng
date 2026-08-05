@@ -60,7 +60,7 @@ export function KeluargaTable({ listKeluarga }: KeluargaTableProps) {
 
   const handleDelete = async (id: string, nama: string) => {
     const result = await showConfirmModal({
-      title: "Hapus Data Keluarga?",
+      title: "Hapus Data Anggota?",
       text: `Apakah Anda yakin ingin menghapus "${nama}"?`,
       confirmButtonText: "Ya, Hapus Data",
       cancelButtonText: "Batal",
@@ -99,7 +99,7 @@ export function KeluargaTable({ listKeluarga }: KeluargaTableProps) {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
           <h1 className="text-base sm:text-lg font-bold flex items-center gap-2">
-            Daftar Kepala Keluarga
+            Daftar Anggota
           </h1>
           <p className="text-xs text-base-content/70">
             Kelola data keluarga peserta iuran kas MLAKUBARENG
@@ -110,7 +110,7 @@ export function KeluargaTable({ listKeluarga }: KeluargaTableProps) {
           className="btn btn-primary font-semibold shadow-sm"
         >
           <FiPlus className="w-4 h-4 mr-1" />
-          Tambah Keluarga Baru
+          Tambah Anggota Baru
         </button>
       </div>
 
@@ -134,7 +134,7 @@ export function KeluargaTable({ listKeluarga }: KeluargaTableProps) {
           <label className="flex w-72 input input-bordered input-sm items-center gap-2">
             <input
               type="text"
-              placeholder="Cari nama Keluarga..."
+              placeholder="Cari nama Anggota..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full"
@@ -143,19 +143,19 @@ export function KeluargaTable({ listKeluarga }: KeluargaTableProps) {
           <div className="text-xs font-semibold text-base-content/70">
             Total Terdaftar:{" "}
             <span className="text-base-content font-bold">
-              {listKeluarga.length} Keluarga
+              {listKeluarga.length} Anggota
             </span>
           </div>
         </div>
       </div>
 
-      {/* Table Data Keluarga */}
+      {/* Table Data Anggota */}
       <div className="card bg-base-200 shadow-sm border border-base-300">
         <div className="card-body p-0 overflow-x-auto">
           <table className="table table-zebra w-full text-sm text-nowrap">
             <thead className="bg-base-300 text-base-content font-bold">
               <tr>
-                <th>Nama Keluarga</th>
+                <th>Nama Anggota</th>
                 <th className="text-center w-36">Aksi</th>
               </tr>
             </thead>
@@ -188,7 +188,7 @@ export function KeluargaTable({ listKeluarga }: KeluargaTableProps) {
                         <button
                           onClick={() => handleOpenEdit(item)}
                           className="btn btn-xs btn-outline"
-                          title="Edit Nama Keluarga"
+                          title="Edit Nama Anggota"
                         >
                           <FiEdit2 className="w-3.5 h-3.5" />
                         </button>
@@ -198,7 +198,7 @@ export function KeluargaTable({ listKeluarga }: KeluargaTableProps) {
                           }
                           className="btn btn-xs btn-error btn-outline"
                           disabled={deletingId === item.id}
-                          title="Hapus Keluarga"
+                          title="Hapus Anggota"
                         >
                           {deletingId === item.id ? (
                             <span className="loading loading-spinner loading-xs" />

@@ -358,7 +358,7 @@ export default async function DashboardOverviewPage(props: DashboardPageProps) {
         </div>
       </div>
 
-      {/* 1. Ringkasan Bulanan (Tabel Status per Keluarga dengan Client Month Input) */}
+      {/* 1. Ringkasan Bulanan (Tabel Status per Anggota dengan Client Month Input) */}
       <div className="card bg-base-200 shadow-sm border border-base-300">
         <div className="card-body">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -368,7 +368,7 @@ export default async function DashboardOverviewPage(props: DashboardPageProps) {
                 Rekap Iuran Bulanan
               </h2>
               <p className="text-xs text-base-content/70">
-                Status pembayaran iuran bulanan per Keluarga pada bulan terpilih
+                Status pembayaran iuran bulanan per Anggota pada bulan terpilih
               </p>
             </div>
             <div className="flex items-center gap-3">
@@ -386,7 +386,7 @@ export default async function DashboardOverviewPage(props: DashboardPageProps) {
             <table className="table table-zebra w-full text-xs text-nowrap">
               <thead className="bg-base-300 text-base-content font-bold">
                 <tr>
-                  <th className="text-left">Nama Keluarga</th>
+                  <th className="text-left">Nama Anggota</th>
                   <th className="text-left">Nominal Setor</th>
                   <th className="text-left">Status</th>
                 </tr>
@@ -427,7 +427,7 @@ export default async function DashboardOverviewPage(props: DashboardPageProps) {
                       colSpan={3}
                       className="text-center py-6 text-base-content/60"
                     >
-                      Belum ada data keluarga di database.
+                      Belum ada data anggota di database.
                     </td>
                   </tr>
                 )}
@@ -447,7 +447,7 @@ export default async function DashboardOverviewPage(props: DashboardPageProps) {
                 Rekap Iuran Tahunan
               </h2>
               <p className="text-xs text-base-content/70">
-                Status pembayaran iuran bulanan per Keluarga pada bulan terpilih
+                Status pembayaran iuran bulanan per Anggota pada bulan terpilih
               </p>
             </div>
             <YearFilter defaultValue={selectedTahun} />
@@ -457,7 +457,7 @@ export default async function DashboardOverviewPage(props: DashboardPageProps) {
             <table className="table table-zebra w-full text-xs text-nowrap">
               <thead className="bg-base-300 text-base-content font-bold">
                 <tr>
-                  <th className="min-w-44">Nama Keluarga</th>
+                  <th className="min-w-44">Nama Anggota</th>
                   <th className="text-center">Jan</th>
                   <th className="text-center">Feb</th>
                   <th className="text-center">Mar</th>

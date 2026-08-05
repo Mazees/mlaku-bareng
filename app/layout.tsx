@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "MLAKUBARENG — Kas Keluarga Transparan",
+  title: "MLAKUBARENG — Kas Anggota Transparan",
   description: "Aplikasi kas keluarga transparan berbasis web",
   icons: {
     icon: "/icon.png",

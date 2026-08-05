@@ -40,7 +40,7 @@ export function generateLaporanExcel(data: LaporanPDFData) {
       ]),
     ];
     const ws2 = XLSX.utils.aoa_to_sheet(iuranData);
-    XLSX.utils.book_append_sheet(wb, ws2, "Status Iuran Keluarga");
+    XLSX.utils.book_append_sheet(wb, ws2, "Status Iuran Anggota");
   }
 
   // Sheet 2.5: Rekap Iuran Tahunan (12 Bulan)

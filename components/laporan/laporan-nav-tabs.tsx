@@ -16,7 +16,7 @@ export function LaporanNavTabs() {
           {isOverview ? (
             <>
               <FiGrid className="w-5 h-5 text-primary shrink-0" />
-              <span>Ringkasan Kas Keluarga</span>
+              <span>Ringkasan Kas Anggota</span>
             </>
           ) : (
             <>
@@ -27,7 +27,7 @@ export function LaporanNavTabs() {
         </h1>
         <p className="text-xs text-base-content/70">
           {isOverview
-            ? "Transparansi uang kas keluarga MLAKUBARENG, mudah dibaca oleh seluruh anggota keluarga."
+            ? "Transparansi uang kas anggota MLAKUBARENG."
             : "Daftar lengkap riwayat pemasukan dan pengeluaran kas beserta bukti foto struk."}
         </p>
       </div>
