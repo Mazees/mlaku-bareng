@@ -222,7 +222,7 @@ export function KeluargaTable({ listKeluarga }: KeluargaTableProps) {
                         <b>{search}</b>&quot;.
                       </span>
                     ) : (
-                      <span>Belum ada data keluarga terdaftar.</span>
+                      <span>Belum ada data anggota terdaftar.</span>
                     )}
                   </td>
                 </tr>

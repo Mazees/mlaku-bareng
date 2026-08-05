@@ -30,13 +30,13 @@ create table if not exists keluarga (
 create table if not exists configuration (
     id                     uuid primary key default gen_random_uuid(),
     nominal_iuran_bulanan  numeric(14,2) not null,
-    berlaku_mulai          date not null,
+    berlaku_mulai          date not null unique,
     created_at             timestamptz not null default now()
 );
 
--- Seed nominal default awal: Rp100.000, berlaku sejak hari ini
+-- Seed nominal default awal: Rp100.000, berlaku sejak tanggal 1 bulan ini
 insert into configuration (nominal_iuran_bulanan, berlaku_mulai)
-values (100000, current_date)
+values (100000, date_trunc('month', current_date)::date)
 on conflict do nothing;
 
 -- ---------------------------------------------------------
