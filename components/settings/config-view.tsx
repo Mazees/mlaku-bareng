@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { FiSettings, FiEdit2, FiShield, FiCheckCircle } from "react-icons/fi";
+import { FiSettings, FiEdit2, FiShield, FiCheckCircle, FiTrash2 } from "react-icons/fi";
 import { ConfigModal } from "@/components/forms/config-modal";
+import { deleteConfiguration } from "@/lib/actions/config-actions";
+import { showConfirmModal, showSuccessToast, showErrorAlert } from "@/lib/utils/swal";
 
 export interface ConfigItem {
   id: string;
@@ -105,6 +107,7 @@ export function ConfigView({
                   <tr>
                     <th>Berlaku Mulai Bulan</th>
                     <th>Nominal Iuran</th>
+                    <th className="text-center">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -126,6 +129,30 @@ export function ConfigView({
                             {Number(item.nominal_iuran_bulanan).toLocaleString(
                               "id-ID",
                             )}
+                          </td>
+                          <td className="text-center">
+                            <button
+                              onClick={async () => {
+                                const ok = await showConfirmModal({
+                                  title: "Hapus Konfigurasi?",
+                                  text: `Tarif Rp ${Number(item.nominal_iuran_bulanan).toLocaleString("id-ID")} mulai ${new Date(item.berlaku_mulai).toLocaleDateString("id-ID", { month: "long", year: "numeric" })} akan dihapus.`,
+                                  confirmButtonText: "Ya, Hapus!",
+                                  isDanger: true,
+                                });
+                                if (ok) {
+                                  const res = await deleteConfiguration(item.id);
+                                  if (res.error) {
+                                    showErrorAlert("Gagal Menghapus", res.error);
+                                  } else {
+                                    showSuccessToast("Konfigurasi berhasil dihapus.");
+                                  }
+                                }
+                              }}
+                              className="btn btn-xs btn-ghost text-error hover:bg-error/10"
+                              title="Hapus konfigurasi"
+                            >
+                              <FiTrash2 className="w-3.5 h-3.5" />
+                            </button>
                           </td>
                         </tr>
                       );

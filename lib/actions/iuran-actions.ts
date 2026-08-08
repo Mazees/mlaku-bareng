@@ -72,13 +72,17 @@ export async function createIuran(formData: FormData) {
     keterangan,
   } = validated.data;
 
-  // 3. Ambil histori iuran dan tanggal terdaftar keluarga ini untuk menentukan alokasi FIFO
-  const { data: keluarga } = await supabase
-    .from("keluarga")
-    .select("created_at")
-    .eq("id", keluarga_id)
-    .single();
+  // 3. Ambil SEMUA konfigurasi iuran (diurutkan dari terlama) untuk menentukan nominal per periode
+  const { data: allConfigs } = await supabase
+    .from("configuration")
+    .select("nominal_iuran_bulanan, berlaku_mulai")
+    .order("berlaku_mulai", { ascending: true });
 
+  if (!allConfigs || allConfigs.length === 0) {
+    return { error: "Belum ada konfigurasi nominal iuran. Silakan atur di Settings." };
+  }
+
+  // 4. Ambil histori iuran keluarga ini
   const { data: historiIuran } = await supabase
     .from("iuran")
     .select("periode, nominal")
@@ -91,63 +95,41 @@ export async function createIuran(formData: FormData) {
       (setoranPerPeriode[row.periode] || 0) + Number(row.nominal);
   });
 
-  // Tentukan titik awal pencarian dari tanggal terdaftar keluarga atau Januari tahun berjalan
-  let sisaUang = totalNominalInput;
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
-
-  // Titik awal tahun & bulan: dari tanggal keluarga terdaftar
-  const regDate = keluarga?.created_at
-    ? new Date(keluarga.created_at)
-    : currentDate;
-  const startYear = Math.min(regDate.getFullYear(), currentYear);
-  const startMonth =
-    regDate.getFullYear() < currentYear
-      ? 1
-      : Math.min(regDate.getMonth() + 1, currentDate.getMonth() + 1);
-
-  let checkYear = startYear;
-  let checkMonth = startMonth;
-
-  // Cari titik awal bulan yang belum lunas penuh
-  let startFound = false;
-  for (let y = startYear; y <= currentYear + 2; y++) {
-    const mStart = y === startYear ? startMonth : 1;
-    for (let m = mStart; m <= 12; m++) {
-      const monthStr = m < 10 ? `0${m}` : `${m}`;
-      const periodeStr = `${y}-${monthStr}`;
-
-      const nominalWajib = await getNominalWajibForPeriod(
-        supabase,
-        periodeStr
-      );
-      const sudahSetor = setoranPerPeriode[periodeStr] || 0;
-
-      if (sudahSetor < nominalWajib) {
-        checkYear = y;
-        checkMonth = m;
-        startFound = true;
+  // Helper: cari nominal wajib yang berlaku untuk suatu periode dari array konfigurasi
+  function getNominalForPeriod(periodeStr: string): number {
+    const firstDate = `${periodeStr}-01`;
+    let nominal = Number(allConfigs![0].nominal_iuran_bulanan); // fallback ke config pertama
+    for (const cfg of allConfigs!) {
+      if (cfg.berlaku_mulai <= firstDate) {
+        nominal = Number(cfg.nominal_iuran_bulanan);
+      } else {
         break;
       }
     }
-    if (startFound) break;
+    return nominal;
   }
 
-  // ALGORITMA SMART FIFO ALLOCATION: Pecah uang masuk ke bulan-bulan tertunggak / mendatang
+  // 5. Tentukan titik awal: dari berlaku_mulai konfigurasi paling awal
+  const earliestConfig = new Date(allConfigs[0].berlaku_mulai);
+  let checkYear = earliestConfig.getFullYear();
+  let checkMonth = earliestConfig.getMonth() + 1; // 1-indexed
+
+  // 6. ALGORITMA SMART FIFO ALLOCATION
+  // Alokasi sampai saldo habis
+  let sisaUang = totalNominalInput;
   const iuranInserts = [];
 
   while (sisaUang > 0) {
+
     const monthStr = checkMonth < 10 ? `0${checkMonth}` : `${checkMonth}`;
     const periodeStr = `${checkYear}-${monthStr}`;
 
-    const nominalWajib = await getNominalWajibForPeriod(
-      supabase,
-      periodeStr
-    );
+    const nominalWajib = getNominalForPeriod(periodeStr);
     const sudahSetor = setoranPerPeriode[periodeStr] || 0;
     const kurang = Math.max(0, nominalWajib - sudahSetor);
 
     if (kurang > 0) {
+      // Periode ini belum lunas — alokasikan pembayaran
       const nominalAlokasi = Math.min(sisaUang, kurang);
 
       iuranInserts.push({
@@ -161,11 +143,9 @@ export async function createIuran(formData: FormData) {
 
       sisaUang -= nominalAlokasi;
       setoranPerPeriode[periodeStr] = sudahSetor + nominalAlokasi;
-    } else {
-      // Jika bulan ini sudah lunas, lanjut ke bulan berikutnya
     }
+    // Periode sudah lunas — skip, lanjut ke bulan berikutnya
 
-    // Geser ke bulan berikutnya
     checkMonth++;
     if (checkMonth > 12) {
       checkMonth = 1;
@@ -173,22 +153,34 @@ export async function createIuran(formData: FormData) {
     }
   }
 
-  // Insert semua baris iuran hasil alokasi FIFO
+  // Jika masih ada sisa uang setelah semua periode lunas, kembalikan info
+  if (sisaUang > 0 && iuranInserts.length === 0) {
+    return { error: "Semua periode iuran sampai bulan ini sudah lunas. Tidak ada tunggakan." };
+  }
+
+  // 7. Insert semua baris iuran hasil alokasi FIFO
   if (iuranInserts.length > 0) {
     const { error: insertErr } = await supabase
       .from("iuran")
-      .upsert(iuranInserts);
+      .insert(iuranInserts);
 
     if (insertErr) {
       return { error: `Gagal mencatat setoran iuran: ${insertErr.message}` };
     }
   }
 
-  // 4. Revalidate cache halaman
+  // 8. Revalidate cache halaman
   revalidatePath("/dashboard/iuran");
   revalidatePath("/dashboard");
 
-  return { error: null, success: true };
+  const periodeList = iuranInserts.map((i) => i.periode).join(", ");
+  const sisaInfo = sisaUang > 0 ? ` (sisa Rp ${sisaUang.toLocaleString("id-ID")} tidak dialokasikan karena semua periode sudah lunas)` : "";
+
+  return {
+    error: null,
+    success: true,
+    message: `Setoran berhasil dialokasikan ke ${iuranInserts.length} periode: ${periodeList}${sisaInfo}`,
+  };
 }
 
 /**

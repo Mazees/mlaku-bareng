@@ -70,3 +70,43 @@ export async function createConfiguration(formData: FormData) {
 
   return { error: null, success: true };
 }
+
+/**
+ * Server Action: Hapus Konfigurasi Nominal Iuran
+ */
+export async function deleteConfiguration(id: string) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "Sesi Anda telah berakhir. Silakan login kembali." };
+  }
+
+  if (!id) {
+    return { error: "ID konfigurasi tidak valid." };
+  }
+
+  // Cek jumlah konfigurasi — minimal harus ada 1
+  const { count } = await supabase
+    .from("configuration")
+    .select("id", { count: "exact", head: true });
+
+  if ((count || 0) <= 1) {
+    return { error: "Tidak bisa menghapus konfigurasi terakhir. Minimal harus ada 1 konfigurasi aktif." };
+  }
+
+  const { error } = await supabase.from("configuration").delete().eq("id", id);
+
+  if (error) {
+    return { error: `Gagal menghapus konfigurasi: ${error.message}` };
+  }
+
+  revalidatePath("/dashboard/settings");
+  revalidatePath("/dashboard/iuran");
+  revalidatePath("/dashboard");
+
+  return { error: null, success: true };
+}
